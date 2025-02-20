@@ -8,6 +8,18 @@ import grpc.aio  # Direct import of grpc.aio
 from functools import wraps
 import inspect
 import json
+from .runpod import deploy_endpoint, provision_resource
+
+
+
+#Global variable
+
+
+DEPLOYED_ENDPOINTS = {}
+
+
+
+
 
 
 def get_function_source(func):
@@ -61,6 +73,13 @@ class RemoteExecutionClient:
             raise ValueError("Server pool is empty")
         server_name = random.choice(server_names)
         return self.stubs[server_name]
+    
+    # Get resources in the pool
+    def get_pool(self, pool_name: str):
+        return self.pools[pool_name]
+    
+    def get_server(self, server_name: str):
+        return self.servers[server_name]
 
 class StubWithFallback:
     def __init__(self, primary_stub, client, fallback_spec):
@@ -76,13 +95,20 @@ class StubWithFallback:
             fallback_stub = self.client.get_stub(self.fallback_spec)
             return await fallback_stub.ExecuteFunction(request)
 
-def remote(server_spec: Union[str, List[str]], fallback: Union[None, str, List[str]] = None):
+def remote(server_spec: Union[str, List[str]], fallback: Union[None, str, List[str]] = None, type: str = None):
     def decorator(func):
         @wraps(func)
         async def wrapper(*args, **kwargs):
             from tetra.client_manager import get_global_client
             global_client = get_global_client()
-            
+            # Here it requires to add the provisioning resource and deploy endpoint.
+            # Get the server spec from the decorator and pass it to the deploy endpoint and wait will it is done.
+            # Onve it verfies we are going to add "isInstance"
+            # We will also add the check here, if endpoint is already deployed.
+            await global_client.add_server('test', deploy_endpoint(server_spec, type="sync"))
+
+            print(f"Server spec: {server_spec}")
+
             source = get_function_source(func)
             
             request = remote_execution_pb2.FunctionRequest(

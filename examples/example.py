@@ -45,7 +45,10 @@ def final_calculations(analysis: dict) -> dict:
     }
 
 async def main():
-    await setup_client()
+    # cl = await setup_client()
+
+    # print(f"This is the pool, {cl.get_pool('compute_pool')}")
+
     
     try:
         # Initial data
