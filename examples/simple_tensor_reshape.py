@@ -6,7 +6,8 @@ from tetra import remote, get_global_client
 # Configuration for a GPU resource
 gpu_config = {
     "api_key": os.environ.get("RUNPOD_API_KEY"),
-    "gpu_ids": "AMPERE_16",  # Using a smaller GPU to stay within quota
+    "template_id": "jizsa65yn0",
+    "gpu_ids": "AMPERE_16",
     "workers_min": 1,
     "workers_max": 1,
     "name": "simple-tensor-reshape"

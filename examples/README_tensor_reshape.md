@@ -7,6 +7,8 @@ This simple example shows how to change the shape of a tensor (a multi-dimension
 - A 2×6 grid (2 rows, 6 columns)
 - A 4×3 grid (4 rows, 3 columns)
 
+![](../tensor_reshape_demo.png)
+
 The code creates colorful visualizations that help you see how the numbers get rearranged in each pattern.
 
 ## Why Tetra Makes Sense
