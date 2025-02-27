@@ -103,6 +103,9 @@ export RUNPOD_API_KEY="your-api-key-here"
 
 # Run the example
 python examples/example.py
+PYTHONPATH=/Users/rachfop/marut/tetra python examples/inference_example.py
+PYTHONPATH=/Users/rachfop/marut/tetra python examples/tensor_reshape.py
+PYTHONPATH=/Users/rachfop/marut/tetra python examples/image_classification.py
 ```
 
 ## License
